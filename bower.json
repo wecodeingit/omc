@@ -16,6 +16,8 @@
     "tests"
   ],
   "devDependencies": {
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "jointjs": "^0.9.10",
+    "three.js": "threejs#*"
   }
 }
