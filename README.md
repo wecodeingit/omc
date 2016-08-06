@@ -1,2 +1,0 @@
-# omc
-Open Mission Control 
