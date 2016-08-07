@@ -45,8 +45,8 @@ module.exports = {
             allChunks: true
         }),
         new WebpackShellPlugin({
-            onBuildStart: ['echo "Webpack Start"'],
-            onBuildEnd: ['node open http://localhost' + PORT]
+            onBuildStart: ['echo "Bundling Started"'],
+            onBuildEnd: ['node launch_app']
         }),
         new LiveReloadPlugin({ appendScriptTag: true })
     ]

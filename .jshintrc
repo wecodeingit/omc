@@ -32,7 +32,8 @@
         "jasmine": false,
         "jquery": true,
         "$": true,
-        "mocha": true
+        "mocha": true,
+        "open": true
 
     }
 
