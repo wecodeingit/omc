@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackShellPlugin = require('webpack-shell-plugin');
 var autoprefixer = require('autoprefixer');
 
-var PORT = 3000;
+var PORT = 9000;
 
 module.exports = {
     entry: "./js/main.js",
@@ -72,7 +72,7 @@ module.exports = {
         }),
         new WebpackShellPlugin({
             onBuildStart: ['echo "Bundling Started"'],
-            onBuildEnd: ['node launch_app']
+            onBuildEnd: ['node launch_app ' + PORT]
         }),
         new LiveReloadPlugin({ appendScriptTag: true })
     ]
