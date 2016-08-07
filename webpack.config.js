@@ -3,8 +3,7 @@
 var LiveReloadPlugin = require('webpack-livereload-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var OpenBrowserPlugin = require('open-browser-webpack-plugin');
-
+var WebpackShellPlugin = require('webpack-shell-plugin');
 var PORT = 3000;
 
 module.exports = {
@@ -22,6 +21,8 @@ module.exports = {
         port: PORT
     },
     watch: true,
+    debug: true,
+    devtool: 'source-map',
     module: {
         loaders: [{
             test: /\.css$/,
@@ -43,7 +44,10 @@ module.exports = {
             filename: "style.css",
             allChunks: true
         }),
-        new LiveReloadPlugin({ appendScriptTag: true }),
-        new OpenBrowserPlugin({ url: 'http://localhost:' + PORT })
+        new WebpackShellPlugin({
+            onBuildStart: ['echo "Webpack Start"'],
+            onBuildEnd: ['node open http://localhost' + PORT]
+        }),
+        new LiveReloadPlugin({ appendScriptTag: true })
     ]
 };
