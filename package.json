@@ -1,24 +1,26 @@
 {
-  "name": "omc",
-  "version": "1.0.0",
-  "description": "",
-  "main": "",
-  "scripts": {
-    "start": "webpack-dev-server --inline"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "css-loader": "^0.23.1",
-    "extract-text-webpack-plugin": "^2.0.0-beta.2",
-    "file-loader": "^0.9.0",
-    "html-webpack-plugin": "^2.22.0",
-    "open": "0.0.5",
-    "style-loader": "^0.13.1",
-    "webpack": "^2.1.0-beta.19",
-    "webpack-dev-server": "^1.14.1",
-    "webpack-livereload-plugin": "^0.8.1",
-    "webpack-shell-plugin": "^0.4.2"
-  }
+    "name": "omc",
+    "version": "1.0.0",
+    "description": "",
+    "main": "",
+    "scripts": {
+        "start": "webpack-dev-server --inline"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "css-loader": "^0.23.1",
+        "extract-text-webpack-plugin": "^2.0.0-beta.2",
+        "file-loader": "^0.9.0",
+        "html-webpack-plugin": "^2.22.0",
+        "jshint": "^2.9.2",
+        "jshint-loader": "^0.8.3",
+        "open": "0.0.5",
+        "style-loader": "^0.13.1",
+        "webpack": "^2.1.0-beta.19",
+        "webpack-dev-server": "^1.9.0",
+        "webpack-livereload-plugin": "^0.8.1",
+        "webpack-shell-plugin": "^0.4.2"
+    }
 }
