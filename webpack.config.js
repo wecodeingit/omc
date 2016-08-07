@@ -4,6 +4,7 @@ var LiveReloadPlugin = require('webpack-livereload-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackShellPlugin = require('webpack-shell-plugin');
+var autoprefixer = require('autoprefixer');
 
 var PORT = 3000;
 
@@ -28,6 +29,7 @@ module.exports = {
         emitErrors: true,
         failOnHint: true
     },
+    postcss: [autoprefixer({ browsers: ['last 2 versions'] })],
     module: {
         preLoaders: [{
             test: /\.js$/, // include .js files
@@ -38,7 +40,7 @@ module.exports = {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract({
                 fallbackLoader: "style-loader",
-                loader: "css-loader"
+                loader: "css-loader?sourceMap!postcss-loader"
             })
         }, {
             test: /\.png$/,
