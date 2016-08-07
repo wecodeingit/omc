@@ -9,14 +9,16 @@ var autoprefixer = require('autoprefixer');
 var PORT = 9000;
 
 module.exports = {
-    entry: "./js/main.js",
+    entry: __dirname + "/app/",
     output: {
         path: __dirname + "/dist",
         filename: "bundle.js"
     },
     resolve: {
         alias: {
-            'jquery': __dirname + '/bower_components/jquery/dist/jquery.js'
+            'jquery': __dirname + '/bower_components/jquery/dist/jquery.js',
+            'handlebars': __dirname + '/bower_components/handlebars/handlebars.js',
+            'bootstrap': __dirname + '/bower_components/bootstrap/dist'
         }
     },
     devServer: {
@@ -43,8 +45,14 @@ module.exports = {
                 loader: "css-loader?sourceMap!postcss-loader"
             })
         }, {
-            test: /\.png$/,
+            test: /\.(png|jpg)$/,
             loader: "file-loader"
+        }, {
+            test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+            loader: 'file-loader'
+        }, {
+            test: /\.html$/,
+            loader: "html"
         }]
     },
     plugins: [
@@ -62,6 +70,7 @@ module.exports = {
                 }
             });
         },
+
         new HtmlWebpackPlugin({
             favicon: 'favicon.ico',
             template: 'index.html'
