@@ -1,6 +1,6 @@
 'use strict';
 
-var LiveReloadPlugin = require('webpack-livereload-plugin');
+
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackShellPlugin = require('webpack-shell-plugin');
@@ -82,7 +82,8 @@ module.exports = {
         new WebpackShellPlugin({
             onBuildStart: ['echo "Bundling Started"'],
             onBuildEnd: ['node launch_app ' + PORT]
-        }),
-        new LiveReloadPlugin({ appendScriptTag: true })
+        })
+        /*,
+                new LiveReloadPlugin({ appendScriptTag: true })*/
     ]
 };
