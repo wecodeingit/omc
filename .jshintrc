@@ -17,6 +17,7 @@
     "smarttabs": true,
     "white": false,
     "globals": {
+        "requestAnimationFrame": false,
         "angular": false,
         "browser": false,
         "describe": false,

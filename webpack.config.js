@@ -18,7 +18,8 @@ module.exports = {
         alias: {
             'jquery': __dirname + '/bower_components/jquery/dist/jquery.js',
             'handlebars': __dirname + '/bower_components/handlebars/handlebars.js',
-            'bootstrap': __dirname + '/bower_components/bootstrap/dist'
+            'bootstrap': __dirname + '/bower_components/bootstrap/dist',
+            'THREE': __dirname + '/bower_components/three.js/build/three.js'
         }
     },
     devServer: {
@@ -83,7 +84,5 @@ module.exports = {
             onBuildStart: ['echo "Bundling Started"'],
             onBuildEnd: ['node launch_app ' + PORT]
         })
-        /*,
-                new LiveReloadPlugin({ appendScriptTag: true })*/
     ]
 };
