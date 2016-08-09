@@ -6,6 +6,7 @@ var earthmap1k = require('img/earthmap1k.jpg');
 var earthbump1k = require('img/earthbump1k.jpg');
 var earthspec1k = require('img/earthspec1k.jpg');
 var starfield = require('img/starfield.png');
+var satImg = require('img/sat.png');
 module.exports = {
     init: function() {
 
@@ -44,16 +45,17 @@ module.exports = {
         var earthPivot = new THREE.Object3D();
         earthMesh.add(earthPivot);
 
-        var coneGeometry = new THREE.ConeGeometry(0.1, 0.05, 10, 1, false, 0, 6.3);
-        var MeshBasicMaterialYellow = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-        var satellite = new THREE.Mesh(coneGeometry, MeshBasicMaterialYellow);
+        var cubeSat = new THREE.BoxBufferGeometry(0.2,0.2,0.2);
+        var MeshBasicMaterialYellow = new THREE.MeshPhongMaterial();
+        var satellite = new THREE.Mesh(cubeSat, MeshBasicMaterialYellow);
+        MeshBasicMaterialYellow.map = textureLoader.load(satImg);
 
-        satellite.translateX(1);
-        satellite.rotateZ(1.5);
+        satellite.translateX(1);        
         earthPivot.add(satellite);
 
         onRenderFcts.push(function(delta, now) {
             earthMesh.rotateY(1 / 4 * delta);
+            satellite.rotateY(1 / 2 * delta);
             earthPivot.rotateY(1 / 2 * delta);
         });
 
