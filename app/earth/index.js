@@ -2,7 +2,10 @@
 
 var $ = require('jquery');
 var THREE = require('THREE');
-
+var earthmap1k = require('img/earthmap1k.jpg');
+var earthbump1k = require('img/earthbump1k.jpg');
+var earthspec1k = require('img/earthspec1k.jpg');
+var starfield = require('img/starfield.png');
 module.exports = {
     init: function() {
 
@@ -31,10 +34,10 @@ module.exports = {
         var material = new THREE.MeshPhongMaterial();
         var earthMesh = new THREE.Mesh(geometry, material);
         scene.add(earthMesh);
-        material.map = THREE.ImageUtils.loadTexture('img/earthmap1k.jpg');
-        material.bumpMap = THREE.ImageUtils.loadTexture('img/earthbump1k.jpg');
+        material.map = THREE.ImageUtils.loadTexture(earthmap1k);
+        material.bumpMap = THREE.ImageUtils.loadTexture(earthbump1k);
         material.bumpScale = 0.05;
-        material.specularMap = THREE.ImageUtils.loadTexture('img/earthspec1k.jpg');
+        material.specularMap = THREE.ImageUtils.loadTexture(earthspec1k);
         material.specular = new THREE.Color('grey');
 
         var earthPivot = new THREE.Object3D();
@@ -59,7 +62,7 @@ module.exports = {
 
         var sphereGeometry = new THREE.SphereGeometry(90, 32, 32);
         var meshBasicMaterial = new THREE.MeshBasicMaterial();
-        meshBasicMaterial.map = THREE.ImageUtils.loadTexture('img/galaxy_starfield.png');
+        meshBasicMaterial.map = THREE.ImageUtils.loadTexture(starfield);
         meshBasicMaterial.side = THREE.BackSide;
         var mesh = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
         scene.add(mesh);

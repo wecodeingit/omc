@@ -19,7 +19,8 @@ module.exports = {
             'jquery': __dirname + '/bower_components/jquery/dist/jquery.js',
             'handlebars': __dirname + '/bower_components/handlebars/handlebars.js',
             'bootstrap': __dirname + '/bower_components/bootstrap/dist',
-            'THREE': __dirname + '/bower_components/three.js/build/three.js'
+            'THREE': __dirname + '/bower_components/three.js/build/three.js',
+            'img': __dirname + '/img'
         }
     },
     devServer: {
