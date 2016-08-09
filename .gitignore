@@ -5,3 +5,4 @@ public/components
 .git/
 bower_components/
 dist/
+npm-debug*

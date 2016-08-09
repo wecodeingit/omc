@@ -5,6 +5,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackShellPlugin = require('webpack-shell-plugin');
 var autoprefixer = require('autoprefixer');
+var webpack = require('webpack');
 
 var PORT = 9000;
 
@@ -19,7 +20,13 @@ module.exports = {
             'jquery': __dirname + '/bower_components/jquery/dist/jquery.js',
             'handlebars': __dirname + '/bower_components/handlebars/handlebars.js',
             'bootstrap': __dirname + '/bower_components/bootstrap/dist',
-            'THREE': __dirname + '/bower_components/three.js/build/three.js',
+            'three': __dirname + '/bower_components/three.js/build/three.js',
+            'dagre': __dirname + '/bower_components/dagre/dist/dagre.core.js',
+            'graphlib': __dirname + '/bower_components/graphlib/dist/graphlib.core.js',
+            'underscore': __dirname + '/bower_components/underscore/underscore.js',
+            'backbone': __dirname + '/bower_components/backbone/backbone.js',
+            'lodash': __dirname + '/bower_components/lodash/lodash.js',
+            'joint': __dirname + '/bower_components/jointjs/dist/joint.js',
             'img': __dirname + '/img'
         }
     },
