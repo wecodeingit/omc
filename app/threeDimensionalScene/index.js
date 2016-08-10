@@ -5,7 +5,7 @@ var THREE = require('three');
 var earthMap = require('img/earthMap.jpg');
 var earthSpecularMap = require('img/earthSpecularMap.jpg');
 var starfield = require('img/starfield.png');
-var satelliteImage = require('img/sat.png');
+var satelliteImage = require('img/satelliteImage.png');
 module.exports = {
 
     init: function(customizedOptions) {
