@@ -79,7 +79,6 @@ module.exports = {
                 }
             });
         },
-
         new HtmlWebpackPlugin({
             favicon: 'favicon.ico',
             template: 'index.html'
