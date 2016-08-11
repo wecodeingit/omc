@@ -1,13 +1,10 @@
 'use strict';
 var $ = require('jquery');
-var Handlebars = require('handlebars');
 var tmpl = require("./tmpl.html");
-
-
-
+var tabs = require('../tabs');
 module.exports = {
     init: function() {
-        var template = Handlebars.compile(tmpl);
-        $("#main").html(template);
+        $("#main").html(tmpl);
+        tabs.init();
     }
 };

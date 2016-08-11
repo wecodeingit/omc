@@ -1,0 +1,16 @@
+<div class="tabbable custom-tabs tabs-animated  flat flat-all hide-label-980 shadow track-url auto-scroll">
+    <ul class="nav nav-tabs">
+        {{#each tabJson}}
+        <li class="{{checkClause 0 @index 'active' ''}} tab-head">
+            <a href="#{{this.tabId}}" data-toggle="tab"><span>{{this.tabName}}</span></a>
+        </li>
+        {{/each}}
+    </ul>
+    <div class="tab-content clearfix">
+        {{#each tabJson}}
+        <div class="{{checkClause 0 @index 'active' ''}} tab-pane" id="{{this.tabId}}">
+            <h3>We use the class nav-pills instead of nav-tabs which automatically creates a background color for the tab</h3>
+        </div>
+        {{/each}}
+    </div>
+</div>

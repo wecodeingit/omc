@@ -52,7 +52,7 @@ module.exports = {
         var defaultOptions = {
             canvas_width: canvas_width,
             canvas_height: canvas_height,
-            el: '#earthCanvas'
+            el: 'body'
         };
         var options = {};
 

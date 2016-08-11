@@ -7,7 +7,7 @@
  module.exports = {
      init: function() {
          var paper = new joint.dia.Paper({
-             el: $('#mimicDisplay'),
+             el: $('body'),
              width: 600,
              height: 200,
              model: graph,
