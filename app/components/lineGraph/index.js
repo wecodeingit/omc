@@ -53,7 +53,7 @@
               .style("text-anchor", "end")
               .text(opts.legend);
 
-          svg.append("path")
+          var path = svg.append("path")
               .datum(data)
               .attr("class", "line")
               .attr("d", line);   
@@ -61,9 +61,26 @@
         // Add the scatterplot
         svg.selectAll("dot")
             .data(data)
-            .enter().append("circle")
-            .attr("r", 3.5)
+            .enter().append("circle")            
+            .attr("r", 0)
             .attr("cx", function(d) { return x(d[opts.x]); })
-            .attr("cy", function(d) { return y(d[opts.y]); });     
-         }     
+            .attr("cy", function(d) { return y(d[opts.y]); })
+            .transition()
+            .delay(function(d,i){
+                return i*200;
+            })
+            .duration(200)
+            .ease("linear")
+            .attr("r", 3.5);
+
+        var totalLength = path.node().getTotalLength();
+
+        path
+        .attr("stroke-dasharray", totalLength + " " + totalLength)
+        .attr("stroke-dashoffset", totalLength)
+        .transition()
+        .duration(3000)
+        .ease("linear")
+        .attr("stroke-dashoffset", 0);
+    }
  };
