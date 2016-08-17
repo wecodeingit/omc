@@ -80,6 +80,10 @@ module.exports = {
                 }
             });
         },
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        }),
         new HtmlWebpackPlugin({
             favicon: 'favicon.ico',
             template: 'index.html'
