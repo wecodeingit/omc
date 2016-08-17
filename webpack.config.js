@@ -27,6 +27,7 @@ module.exports = {
             'backbone': __dirname + '/bower_components/backbone/backbone.js',
             'lodash': __dirname + '/bower_components/lodash/lodash.js',
             'joint': __dirname + '/bower_components/jointjs/dist/joint.js',
+            'd3': __dirname + '/bower_components/d3/d3.js',
             'img': __dirname + '/img'
         }
     },
