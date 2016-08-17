@@ -1,0 +1,28 @@
+<div class="text-left">
+    {{#if this.SolArray_Status}}
+    <p class="row">
+        <label class="col-md-5 text-left">Solar Array Status</label> <span class="col-md-7 text-right">  {{this.SolArray_Status}} </span>
+    </p>
+    <p class="row">
+        <label class="col-md-5 text-left">Solar Array Angle</label> <span class="col-md-7 text-right"> {{this.SolArray_Angle}} Deg </span>
+    </p>
+    <p class="row">
+        <label class="col-md-5 text-left">Solar Array Power</label> <span class="col-md-7 text-right">  {{this.SolArray_Pow}}
+     W</span>
+    </p>
+    <p class="row">
+        <label class="col-md-5 text-left">Bus Voltage</label> <span class="col-md-7 text-right">  {{this.Bus_Volt}} V</span>
+    </p>
+    <p class="row">
+        <label class="col-md-5 text-left">Load Current</label> <span class="col-md-7 text-right"> {{this.Load_Curr}} A</span>
+    </p>
+    <p class="row">
+        <label class="col-md-5 text-left">Load Power</label> <span class="col-md-7 text-right"> {{this.Load_Pow}} W</span>
+    </p>
+    <p class="row">
+        <label class="col-md-5 text-left">Battery SoC</label> <span class="col-md-7 text-right">  {{this.Batt_SOC}} %</span>
+    </p>
+    {{/if}} {{#unless this.SolArray_Status}}
+    <p> Click on the graph points to get specific data </p>
+    {{/unless}}
+</div>

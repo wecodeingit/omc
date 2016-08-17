@@ -1,0 +1,15 @@
+<div class="text-left">
+    {{#if this.Last_Executed_Command_ID}} [
+    <label>Last Executed Command ID : </label>
+    <span>{{this.Last_Executed_Command_ID}}</span>,
+    <label>Last Executed Command : </label>
+    <span>{{this.Last_Executed_Command}}</span>,
+    <label>Command Acceptance Counter : </label>
+    <span>{{this.Command_Acceptance_Counter}}</span>,
+    <label>Command Rejection Counter : </label>
+    <span>{{this.Command_Rejection_Counter}}</span>,
+    <label>Command Stack Status : </label>
+    <span>{{this.Command_Stack_Status}}</span> ] {{/if}} {{#unless this.Last_Executed_Command_ID}}
+    <p> Click on the graph points to get specific data </p>
+    {{/unless}}
+</div>

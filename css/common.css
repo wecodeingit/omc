@@ -1,0 +1,9 @@
+.portlets {
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 6px -6px black;
+}
+
+.paddingLeftSmall {
+    padding-left: 50px;
+}

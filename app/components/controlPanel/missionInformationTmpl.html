@@ -1,0 +1,17 @@
+<div>
+    {{#if this.Spacecraft_Time}} [
+    <label>Spacecraft Time : </label>
+    <span>{{this.Spacecraft_Time}}</span>,
+    <label>Current Event : </label>
+    <span>{{this.Current_Event}}</span>,
+    <label>Upcoming Events : </label>
+    <span>{{this.Upcoming_Event}}</span>,
+    <label>UTC Time : </label>
+    <span>{{this.UTC_Time}}</span>,
+    <label>Spacecraft Mode : </label>
+    <span>{{this.Spacecraft_Mode}}</span>,
+    <label>TM Mode : </label>
+    <span>{{this.TM_Mode}}</span> ] {{/if}} {{#unless this.Spacecraft_Time}}
+    <p> Click on the graph points to get specific data </p>
+    {{/unless}}
+</div>
