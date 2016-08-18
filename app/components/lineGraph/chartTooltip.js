@@ -11,7 +11,7 @@
      createTooltip: function() {
          this.bindEvents();
          var tooltip = d3.select("body").append("div")
-             .attr("class", "tooltip bs-tether-element bs-tether-element-attached-top fade bs-tether-enabled in")
+             .attr("class", "tooltip top")
              .style("opacity", 0);
 
          tooltip.append("div").attr("class", "tooltip-arrow");
@@ -35,8 +35,13 @@
          });
 
      },
+     checkStatus: function(status) {
+         return status.toLowerCase() === "deployed" ? "text-success" : "text-danger";
+     },
      setHTML: function(d) {
-         var tmpl = "<div>" + this.options.xAxisName +
+         var tmpl = "<h5 class='" + this.checkStatus(d.SolArray_Status) + "'>" +
+             "<strong>" + d.SolArray_Status + "</strong></h5>" +
+             "<div>" + this.options.xAxisName +
              "<span> ( " + this.options.xAxisUnit + " ) </span>" +
              "</div>" +
              "<div>" + d[this.options.xAxisId] + "</div>" +
