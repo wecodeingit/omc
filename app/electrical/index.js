@@ -9,7 +9,7 @@ var electronicPanelData = require('../utilities/data/electronicPanel.js');
 module.exports = {
     init: function(el) {
         this.$el = $(el);
-        var data = { title: "Electrical" };
+        var data = { title: "Electrical", primaryGraphName: "Solar Power Graph", secondaryGraphName: "Bus Voltage Graph" };
         var template = helpers.compile(tmpl);
         this.$el.html(template(data));
         this.loadControlPanel();
