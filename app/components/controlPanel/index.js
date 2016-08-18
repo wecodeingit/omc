@@ -6,21 +6,42 @@
  var commandStatusTmpl = require("./commandStatusTmpl.html");
 
  module.exports = {
-     init: function(data, $el) {
-         this.loadControlPanel(data, $el);
-         this.loadMissionInformation(data, $('.missionInformation'));
-         this.loadCommandStatus(data, $('.commandStatus'));
+     init: function(data) {
+
+         this.loadAllPanels(data);
+         $(document).on("emit:plot-data", this.loadAllPanelsOnInteraction.bind(this));
      },
-     loadControlPanel: function(data, $el) {
-         var template = helpers.compile(controlPanelTmpl);
-         $el.html(template(data));
+     loadAllPanelsOnInteraction: function(event, data) {
+         this.loadAllPanels(data);
      },
-     loadMissionInformation: function(data, $el) {
-         var template = helpers.compile(missionInformationTmpl);
-         $el.html(template(data));
+     loadAllPanels: function(data) {
+         this.loadControlPanel(data);
+         this.loadMissionInformation(data);
+         this.loadCommandStatus(data);
      },
-     loadCommandStatus: function(data, $el) {
-         var template = helpers.compile(commandStatusTmpl);
-         $el.html(template(data));
+     loadPanel: function(options) {
+         var template = helpers.compile(options.template);
+         $(options.el).html(template(options.data));
+     },
+     loadControlPanel: function(data) {
+         this.loadPanel({
+             template: controlPanelTmpl,
+             el: $('.tab-pane.active').find('.controlPanel'),
+             data: data
+         });
+     },
+     loadMissionInformation: function(data) {
+         this.loadPanel({
+             template: missionInformationTmpl,
+             el: '.missionInformation',
+             data: data
+         });
+     },
+     loadCommandStatus: function(data) {
+         this.loadPanel({
+             template: commandStatusTmpl,
+             el: '.commandStatus',
+             data: data
+         });
      }
  };

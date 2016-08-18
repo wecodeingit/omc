@@ -17,7 +17,7 @@ module.exports = {
     },
     loadControlPanel: function() {
         var data = electronicPanelData.data[0];
-        controlPanel.init(data, this.$el.find('.controlPanel'));
+        controlPanel.init(data);
     },
     loadGraphPanels: function() {
         var SolarArrayGraphOptions = {

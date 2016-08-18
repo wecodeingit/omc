@@ -35,6 +35,7 @@
          var xAxis = d3.axisBottom().scale(x).ticks(numberOfXAxisLabels);
          var yAxis = d3.axisLeft().scale(y).ticks(numberOfYAxisLabels).tickFormat(formatYAxis);
          var labelFontSize = 12;
+         var strokeAnimationDuration = 1000;
 
          var line = d3.line()
              .x(function(d) {
@@ -99,7 +100,7 @@
              .attr("transform", "rotate(-90)")
              .style("font-size", labelFontSize)
              .attr("x", 0)
-             .attr("y", -(margin.left - labelFontSize))
+             .attr("y", (labelFontSize - margin.left))
              .text(options.yAxisName + " ( " + options.yAxisUnit + " )");
 
          svg.append("text")
@@ -127,9 +128,8 @@
              })
              .transition()
              .delay(function(d, i) {
-                 return i * 200;
+                 return strokeAnimationDuration;
              })
-             .duration(200)
              .ease(d3.easeLinear)
              .attr("r", 5)
              .call(endall, isTooltipEnbled);
@@ -137,18 +137,18 @@
 
          svg.selectAll("circle")
              .on("click", function(d) {
-                 console.log(d);
+                 $.event.trigger("emit:plot-data", d);
              });
 
          var totalLength = path.node().getTotalLength();
 
          path
-         //  .attr("stroke-dasharray", totalLength + " " + totalLength)
-             .attr("stroke-dashoffset", totalLength);
-         // .transition()
-         // .duration(0)
-         // .ease(d3.easeLinear)
-         // .attr("stroke-dashoffset", 0);
+             .attr("stroke-dasharray", totalLength + " " + totalLength)
+             .attr("stroke-dashoffset", totalLength)
+             .transition()
+             .duration(strokeAnimationDuration)
+             .ease(d3.easeLinear)
+             .attr("stroke-dashoffset", 0);
 
      }
  };
