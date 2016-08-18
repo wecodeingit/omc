@@ -1,5 +1,5 @@
  'use strict';
- var $ = require('jquery');
+
  var helpers = require('../../utilities/handlebars/helpers.js');
  var controlPanelTmpl = require("./controlPanelTmpl.html");
  var missionInformationTmpl = require("./missionInformationTmpl.html");

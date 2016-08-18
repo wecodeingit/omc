@@ -1,5 +1,4 @@
  'use strict';
- var $ = require('jquery');
  var joint = require('joint');
  var graph = new joint.dia.Graph();
 

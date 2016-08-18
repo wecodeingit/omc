@@ -1,6 +1,6 @@
 'use strict';
 
-var $ = require('jquery');
+
 var THREE = require('three');
 var earthMap = require('img/earthMap.jpg');
 var earthSpecularMap = require('img/earthSpecularMap.jpg');

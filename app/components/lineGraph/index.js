@@ -1,31 +1,28 @@
  'use strict';
- var $ = require('jquery');
  var d3 = require('d3');
 
  module.exports = {
      init: function(data, el, opts) {
-         var zoom = d3.behavior.zoom().scaleExtent([1, 100]).on("zoom", function() {
-             svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+         var zoom = d3.zoom().scaleExtent([1, 100]).on("zoom", function() {
+             svg.attr("transform", d3.event.transform);
          });
          var margin = { top: 20, right: 20, bottom: 20, left: 20 },
              width = 400 - margin.left - margin.right,
              height = 400 - margin.top - margin.bottom;
 
-         var x = d3.scale.linear().range([0, width]);
+         var x = d3.scaleLinear().range([0, width]);
 
 
-         var y = d3.scale.linear()
+         var y = d3.scaleLinear()
              .range([height, 0]);
 
-         var xAxis = d3.svg.axis()
-             .scale(x)
-             .orient("bottom");
+         var xAxis = d3.axisBottom()
+             .scale(x);
 
-         var yAxis = d3.svg.axis()
-             .scale(y)
-             .orient("left");
+         var yAxis = d3.axisLeft()
+             .scale(y);
 
-         var line = d3.svg.line()
+         var line = d3.line()
              .x(function(d) {
                  return x(d[opts.x]);
              })
@@ -99,7 +96,7 @@
                      .style("opacity", 0);
 
              })
-             .attr("r", 0)
+             .attr("r", 5)
              .attr("cx", function(d) {
                  return x(d[opts.x]);
              })
@@ -111,7 +108,7 @@
                  return i * 200;
              })
              .duration(200)
-             .ease("linear")
+             .ease(d3.easeLinear)
              .attr("r", 5);
 
          var totalLength = path.node().getTotalLength();
@@ -121,7 +118,7 @@
              .attr("stroke-dashoffset", totalLength)
              .transition()
              .duration(3000)
-             .ease("linear")
+             .ease(d3.easeLinear)
              .attr("stroke-dashoffset", 0);
      }
  };

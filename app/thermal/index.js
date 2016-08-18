@@ -1,5 +1,4 @@
 'use strict';
-var $ = require('jquery');
 var tmpl = require("../utilities/components-layout/tmpl.html");
 var helpers = require("../utilities/handlebars/helpers.js");
 module.exports = {
