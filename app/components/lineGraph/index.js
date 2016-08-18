@@ -133,10 +133,23 @@
              .attr("y", height + (margin.bottom - labelFontSize))
              .text(options.xAxisName + " ( " + options.xAxisUnit + " )");
 
-         var path = svg.append("path")
-             .datum(options.data)
+         //draw Stowed graph
+         var path1 = svg.append("path")
+             .datum(options.data.filter(function(item){ return item.SolArray_Status === "Stowed"; }))
              .attr("class", "line")
-             .attr("d", line);
+             .attr("d", line)
+             .style("stroke","grey");
+
+          //draw Deployed graph
+          var prev = false;
+          var path2 = svg.append("path")
+             .datum(options.data.filter(function(item,i){ 
+                prev = options.data[i+1] ? (options.data[i+1].SolArray_Status!==options.data[i].SolArray_Status) : false;
+                return prev || (item.SolArray_Status !== "Stowed"); 
+              }))
+             .attr("class", "line")
+             .attr("d", line)
+             .style("stroke","green");
 
          svg.selectAll("dot")
              .data(options.data)
@@ -162,13 +175,24 @@
                  $.event.trigger("emit:plot-data", d);
              });
 
-         var totalLength = path.node().getTotalLength();
+         var totalLength = path1.node().getTotalLength();              
 
-         path
+          path1
              .attr("stroke-dasharray", totalLength + " " + totalLength)
              .attr("stroke-dashoffset", totalLength)
              .transition()
-             .duration(strokeAnimationDuration)
+             .duration(strokeAnimationDuration/2)
+             .ease(d3.easeLinear)
+             .attr("stroke-dashoffset", 0);
+
+          totalLength = path2.node().getTotalLength();              
+
+          path2
+             .attr("stroke-dasharray", totalLength + " " + totalLength)
+             .attr("stroke-dashoffset", totalLength)
+             .transition()
+             .delay(strokeAnimationDuration/2)
+             .duration(strokeAnimationDuration/2)
              .ease(d3.easeLinear)
              .attr("stroke-dashoffset", 0);
 
