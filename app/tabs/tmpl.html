@@ -1,7 +1,7 @@
 <div class="tabbable custom-tabs tabs-animated">
     <ul class="nav nav-tabs">
         {{#each tabJson}}
-        <li class="{{checkClause 0 @index 'active' ''}} tab-head">
+        <li class="{{checkClause 0 @index 'active' ''}} tab-head col-lg-1 col-sm-3 col-xs-3">
             <a href="#{{this.tabId}}" data-toggle="tab"><span>{{this.tabName}}</span></a>
         </li>
         {{/each}}
