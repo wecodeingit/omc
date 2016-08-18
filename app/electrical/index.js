@@ -20,9 +20,31 @@ module.exports = {
         controlPanel.init(data, this.$el.find('.controlPanel'));
     },
     loadGraphPanels: function() {
-        var g1 = { x: 'Spacecraft_Time', 'y': 'SolArray_Pow', 'legend': 'Solar Array Power (W)' };
-        var g2 = { x: 'Spacecraft_Time', 'y': 'Bus_Volt', 'legend': 'Bus Voltage (V)' };
-        lineGraph.init(electronicPanelData.data, '.primaryGraph', g1);
-        lineGraph.init(electronicPanelData.data, '.secondaryGraph', g2);
+        var SolarArrayGraphOptions = {
+            xAxisId: 'Spacecraft_Time',
+            xAxisName: 'Spacecraft Time',
+            xAxisUnit: 'sec',
+            yAxisId: 'SolArray_Pow',
+            yAxisName: 'Solar Array Power',
+            yAxisUnit: 'W',
+            width: this.$el.find('.primaryGraph').width(),
+            data: electronicPanelData.data,
+            el: '.primaryGraph'
+        };
+
+        var BusVoltageGraphOptions = {
+            xAxisId: 'Spacecraft_Time',
+            xAxisName: 'Spacecraft Time',
+            xAxisUnit: 'sec',
+            yAxisId: 'Bus_Volt',
+            yAxisName: 'Bus Voltage',
+            yAxisUnit: 'V',
+            width: this.$el.find('.secondaryGraph').width(),
+            data: electronicPanelData.data,
+            el: '.secondaryGraph'
+        };
+
+        lineGraph.init(SolarArrayGraphOptions);
+        lineGraph.init(BusVoltageGraphOptions);
     }
 };

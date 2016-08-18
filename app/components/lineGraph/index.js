@@ -1,55 +1,87 @@
  'use strict';
  var d3 = require('d3');
-
+ var chartTooltip = require('./chartTooltip');
  module.exports = {
-     init: function(data, el, opts) {
-         var zoom = d3.zoom().scaleExtent([1, 100]).on("zoom", function() {
-             svg.attr("transform", d3.event.transform);
-         });
-         var margin = { top: 20, right: 20, bottom: 20, left: 20 },
-             width = 400 - margin.left - margin.right,
-             height = 400 - margin.top - margin.bottom;
+     init: function(userOptions) {
 
+         var defaultOptions = {
+             xAxisId: '',
+             xAxisName: 'x-Axis',
+             yAxisId: '',
+             yAxisName: 'y-Axis',
+             xAxisUnit: '',
+             yAxisUnit: '',
+             data: {},
+             isZoomEnabled: true,
+             isTooltipEnbled: true,
+             width: 400,
+             height: 400,
+             el: 'body'
+         };
+
+         var options = {};
+         $.extend(options, defaultOptions, userOptions);
+
+         var margin = { top: 20, right: 20, bottom: 50, left: 60 };
+         var width = options.width - margin.left - margin.right;
+         var height = options.height - margin.top - margin.bottom;
+         var minScaleExtent = 0.9;
+         var maxScaleExtent = 100;
+         var numberOfXAxisLabels = 5;
+         var numberOfYAxisLabels = 10;
+         var formatYAxis = d3.format('.2f');
          var x = d3.scaleLinear().range([0, width]);
-
-
-         var y = d3.scaleLinear()
-             .range([height, 0]);
-
-         var xAxis = d3.axisBottom()
-             .scale(x);
-
-         var yAxis = d3.axisLeft()
-             .scale(y);
+         var y = d3.scaleLinear().range([height, 0]);
+         var xAxis = d3.axisBottom().scale(x).ticks(numberOfXAxisLabels);
+         var yAxis = d3.axisLeft().scale(y).ticks(numberOfYAxisLabels).tickFormat(formatYAxis);
+         var labelFontSize = 12;
 
          var line = d3.line()
              .x(function(d) {
-                 return x(d[opts.x]);
+                 return x(d[options.xAxisId]);
              })
              .y(function(d) {
-                 return y(d[opts.y]);
+                 return y(d[options.yAxisId]);
              });
 
-         var svg = d3.select(el).append("svg")
-             .attr("width", width + margin.left + margin.right)
-             .attr("height", height + margin.top + margin.bottom)
+         var endall = function(transition, callback) {
+             if (!callback) { callback = function() {}; }
+             if (transition.size() === 0) { callback(); }
+             var n = 0;
+             transition
+                 .each(function() {++n; })
+                 .on("end", function() {
+                     if (!--n) {
+                         callback.apply(this, arguments);
+                     }
+                 });
+         };
+
+         var isTooltipEnbled = function() {
+             return options.isTooltipEnbled && new chartTooltip(options, svg);
+
+         };
+
+
+         var zoom = d3.zoom().scaleExtent([minScaleExtent, maxScaleExtent]).on("zoom", function() {
+             if (options.isZoomEnabled) {
+                 svg.attr("transform", d3.event.transform);
+             }
+         });
+
+         var svg = d3.select(options.el).append("svg")
+             .attr("width", options.width)
+             .attr("height", options.height)
              .call(zoom)
              .append("g")
              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-         var tooltip = d3.select("body").append("div")
-             .attr("class", "tooltip bs-tether-element bs-tether-element-attached-top fade bs-tether-enabled in")
-             .style("opacity", 0);
-
-         tooltip.append("div")
-             .attr("class", "tooltip-arrow");
-
-
-         x.domain(d3.extent(data, function(d) {
-             return d[opts.x];
+         svg.selectAll("g").call(zoom);
+         x.domain(d3.extent(options.data, function(d) {
+             return d[options.xAxisId];
          }));
-         y.domain(d3.extent(data, function(d) {
-             return d[opts.y];
+         y.domain(d3.extent(options.data, function(d) {
+             return d[options.yAxisId].toFixed(1);
          }));
 
          svg.append("g")
@@ -59,49 +91,39 @@
 
          svg.append("g")
              .attr("class", "y axis")
-             .call(yAxis)
-             .append("text")
+             .call(yAxis);
+
+         svg.append("text")
+             .attr("class", "y label")
+             .attr("text-anchor", "end")
              .attr("transform", "rotate(-90)")
-             .attr("y", 6)
-             .attr("dy", ".71em")
-             .style("text-anchor", "end")
-             .text(opts.legend);
+             .style("font-size", labelFontSize)
+             .attr("x", 0)
+             .attr("y", -(margin.left - labelFontSize))
+             .text(options.yAxisName + " ( " + options.yAxisUnit + " )");
+
+         svg.append("text")
+             .attr("class", "x label")
+             .attr("text-anchor", "end")
+             .style("font-size", "12px")
+             .attr("x", width)
+             .attr("y", height + (margin.bottom - labelFontSize))
+             .text(options.xAxisName + " ( " + options.xAxisUnit + " )");
 
          var path = svg.append("path")
-             .datum(data)
+             .datum(options.data)
              .attr("class", "line")
              .attr("d", line);
 
-         // Add the scatterplot
          svg.selectAll("dot")
-             .data(data)
+             .data(options.data)
              .enter().append("circle")
-             .on("mouseover", function(d) {
-                 tooltip.transition()
-                     .duration(200)
-                     .style("opacity", 0.9);
-                 d3.selectAll('.tooltip-inner').remove();
-                 tooltip.append('div').attr('class', 'tooltip-inner')
-                     .html("<div>" + opts.x + "</div><div>" + d[opts.x] + "</div>" +
-                         "<div>" + opts.y + "</div><div>" + d[opts.y] + "</div>");
-                 tooltip.style("left", (d3.event.pageX) - (tooltip.node().getBoundingClientRect().width * 0.5) + "px")
-                     .style("top", (d3.event.pageY) - (tooltip.node().getBoundingClientRect().height + 10) + "px");
-             })
-             .on("click", function(d) {
-                 console.log(d);
-             })
-             .on("mouseout", function(d) {
-                 tooltip.transition()
-                     .duration(200)
-                     .style("opacity", 0);
-
-             })
-             .attr("r", 5)
+             .attr("r", 0)
              .attr("cx", function(d) {
-                 return x(d[opts.x]);
+                 return x(d[options.xAxisId]);
              })
              .attr("cy", function(d) {
-                 return y(d[opts.y]);
+                 return y(d[options.yAxisId]);
              })
              .transition()
              .delay(function(d, i) {
@@ -109,16 +131,24 @@
              })
              .duration(200)
              .ease(d3.easeLinear)
-             .attr("r", 5);
+             .attr("r", 5)
+             .call(endall, isTooltipEnbled);
+
+
+         svg.selectAll("circle")
+             .on("click", function(d) {
+                 console.log(d);
+             });
 
          var totalLength = path.node().getTotalLength();
 
          path
-             .attr("stroke-dasharray", totalLength + " " + totalLength)
-             .attr("stroke-dashoffset", totalLength)
-             .transition()
-             .duration(3000)
-             .ease(d3.easeLinear)
-             .attr("stroke-dashoffset", 0);
+         //  .attr("stroke-dasharray", totalLength + " " + totalLength)
+             .attr("stroke-dashoffset", totalLength);
+         // .transition()
+         // .duration(0)
+         // .ease(d3.easeLinear)
+         // .attr("stroke-dashoffset", 0);
+
      }
  };
