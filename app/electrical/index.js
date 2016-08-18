@@ -29,7 +29,13 @@ module.exports = {
             yAxisUnit: 'W',
             width: this.$el.find('.primaryGraph').width(),
             data: electronicPanelData.data,
-            el: '.primaryGraph'
+            el: '.primaryGraph',
+            limits : [
+                {legend:"Critical High", value: 55, color: "red" },
+                {legend:"Warning High", value: 50, color: "orange" },
+                {legend:"Warning Low", value: 30, color: "orange" },
+                {legend:"Critical Low", value: 25, color: "red" }
+            ]
         };
 
         var BusVoltageGraphOptions = {
@@ -41,7 +47,13 @@ module.exports = {
             yAxisUnit: 'V',
             width: this.$el.find('.secondaryGraph').width(),
             data: electronicPanelData.data,
-            el: '.secondaryGraph'
+            el: '.secondaryGraph',
+            limits : [
+                {legend:"", value: 33.28, color: "red" },
+                {legend:"", value: 33.27, color: "orange" },
+                {legend:"", value: 33.23, color: "orange" },
+                {legend:"", value: 33.22, color: "red" }
+            ]
         };
 
         lineGraph.init(SolarArrayGraphOptions);

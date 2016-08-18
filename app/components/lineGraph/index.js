@@ -16,7 +16,8 @@
              isTooltipEnbled: true,
              width: 400,
              height: 400,
-             el: 'body'
+             el: 'body',
+             limits : []
          };
 
          var options = {};
@@ -85,6 +86,21 @@
              return d[options.yAxisId].toFixed(1);
          }));
 
+         options.limits.forEach(function(item){
+           svg.append("svg:line")
+              .attr("x1", 0)
+              .attr("x2", width)
+              .attr("y1", y(item.value))
+              .attr("y2", y(item.value))
+              .style("stroke", item.color);
+
+          svg.append("text")
+              .attr("x", width)            
+              .attr("y", y(item.value)-5)            
+              .attr("text-anchor", "end")            
+              .text(item.legend);
+         });
+
          svg.append("g")
              .attr("class", "x axis")
              .attr("transform", "translate(0," + height + ")")
@@ -132,9 +148,9 @@
              })
              .ease(d3.easeLinear)
              .attr("r", 5)
-             .call(endall, isTooltipEnbled);
+             .call(endall, isTooltipEnbled);         
 
-
+            
          svg.selectAll("circle")
              .on("click", function(d) {
                  $.event.trigger("emit:plot-data", d);
