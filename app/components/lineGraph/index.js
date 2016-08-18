@@ -86,20 +86,26 @@
              return d[options.yAxisId].toFixed(1);
          }));
 
-         options.limits.forEach(function(item){
-           svg.append("svg:line")
+          //drawing limit lines
+
+           svg.selectAll("limit")
+              .data(options.limits)
+              .enter()
+              .append("svg:line")
               .attr("x1", 0)
               .attr("x2", width)
-              .attr("y1", y(item.value))
-              .attr("y2", y(item.value))
-              .style("stroke", item.color);
+              .attr("y1", function(d) { return y(d.value); })
+              .attr("y2", function(d) { return y(d.value); })
+              .style("stroke", function(d) { return d.color; });
 
-          svg.append("text")
+          svg.selectAll("legends")
+              .data(options.limits)
+              .enter()
+              .append("text")
               .attr("x", width)            
-              .attr("y", y(item.value)-5)            
+              .attr("y", function(d) { return y(d.value)-5; })            
               .attr("text-anchor", "end")            
-              .text(item.legend);
-         });
+              .text(function(d) { return d.legend; });
 
          svg.append("g")
              .attr("class", "x axis")
