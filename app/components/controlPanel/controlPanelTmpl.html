@@ -1,7 +1,10 @@
 <div class="text-left">
     {{#if this.SolArray_Status}}
     <p class="row">
-        <label class="col-md-5 text-left">Solar Array Status</label> <span class="col-md-7 text-right">  {{this.SolArray_Status}} </span>
+        <label class="col-md-5 text-left">Solar Array Status</label>
+        <span class="col-md-7 text-right {{checkClause SolArray_Status 'Deployed' 'text-success' 'text-danger'}}">
+            <strong>{{this.SolArray_Status}}</strong>
+        </span>
     </p>
     <p class="row">
         <label class="col-md-5 text-left">Solar Array Angle</label> <span class="col-md-7 text-right"> {{this.SolArray_Angle}} Deg </span>
