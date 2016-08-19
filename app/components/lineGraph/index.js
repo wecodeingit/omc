@@ -17,7 +17,7 @@
              width: 400,
              height: 400,
              el: 'body',
-             limits : []
+             limits: []
          };
 
          var options = {};
@@ -86,26 +86,31 @@
              return d[options.yAxisId].toFixed(1);
          }));
 
-          //drawing limit lines
+         //drawing limit lines
 
-           svg.selectAll("limit")
-              .data(options.limits)
-              .enter()
-              .append("svg:line")
-              .attr("x1", 0)
-              .attr("x2", width)
-              .attr("y1", function(d) { return y(d.value); })
-              .attr("y2", function(d) { return y(d.value); })
-              .style("stroke", function(d) { return d.color; });
+         svg.selectAll("limit")
+             .data(options.limits)
+             .enter()
+             .append("svg:line")
+             .attr("x1", 0)
+             .attr("x2", width)
+             .attr("y1", function(d) {
+                 return y(d.value); })
+             .attr("y2", function(d) {
+                 return y(d.value); })
+             .style("stroke", function(d) {
+                 return d.color; });
 
-          svg.selectAll("legends")
-              .data(options.limits)
-              .enter()
-              .append("text")
-              .attr("x", width)            
-              .attr("y", function(d) { return y(d.value)-5; })            
-              .attr("text-anchor", "end")            
-              .text(function(d) { return d.legend; });
+         svg.selectAll("legends")
+             .data(options.limits)
+             .enter()
+             .append("text")
+             .attr("x", width)
+             .attr("y", function(d) {
+                 return y(d.value) - 5; })
+             .attr("text-anchor", "end")
+             .text(function(d) {
+                 return d.legend; });
 
          svg.append("g")
              .attr("class", "x axis")
@@ -135,25 +140,27 @@
 
          //draw Stowed graph
          var path1 = svg.append("path")
-             .datum(options.data.filter(function(item){ return item.SolArray_Status === "Stowed"; }))
+             .datum(options.data.filter(function(item) {
+                 return item.SolArray_Status === "Stowed"; }))
              .attr("class", "line")
              .attr("d", line)
-             .style("stroke","grey");
+             .style("stroke", "grey");
 
-          //draw Deployed graph
-          var prev = false;
-          var path2 = svg.append("path")
-             .datum(options.data.filter(function(item,i){ 
-                prev = options.data[i+1] ? (options.data[i+1].SolArray_Status!==options.data[i].SolArray_Status) : false;
-                return prev || (item.SolArray_Status !== "Stowed"); 
-              }))
+         //draw Deployed graph
+         var prev = false;
+         var path2 = svg.append("path")
+             .datum(options.data.filter(function(item, i) {
+                 prev = options.data[i + 1] ? (options.data[i + 1].SolArray_Status !== options.data[i].SolArray_Status) : false;
+                 return prev || (item.SolArray_Status !== "Stowed");
+             }))
              .attr("class", "line")
              .attr("d", line)
-             .style("stroke","green");
+             .style("stroke", "green");
 
          svg.selectAll("dot")
              .data(options.data)
              .enter().append("circle")
+             .style('cursor', 'pointer')
              .attr("r", 0)
              .attr("cx", function(d) {
                  return x(d[options.xAxisId]);
@@ -167,32 +174,32 @@
              })
              .ease(d3.easeLinear)
              .attr("r", 5)
-             .call(endall, isTooltipEnbled);         
+             .call(endall, isTooltipEnbled);
 
-            
+
          svg.selectAll("circle")
              .on("click", function(d) {
                  $.event.trigger("emit:plot-data", d);
              });
 
-         var totalLength = path1.node().getTotalLength();              
+         var totalLength = path1.node().getTotalLength();
 
-          path1
+         path1
              .attr("stroke-dasharray", totalLength + " " + totalLength)
              .attr("stroke-dashoffset", totalLength)
              .transition()
-             .duration(strokeAnimationDuration/2)
+             .duration(strokeAnimationDuration / 2)
              .ease(d3.easeLinear)
              .attr("stroke-dashoffset", 0);
 
-          totalLength = path2.node().getTotalLength();              
+         totalLength = path2.node().getTotalLength();
 
-          path2
+         path2
              .attr("stroke-dasharray", totalLength + " " + totalLength)
              .attr("stroke-dashoffset", totalLength)
              .transition()
-             .delay(strokeAnimationDuration/2)
-             .duration(strokeAnimationDuration/2)
+             .delay(strokeAnimationDuration / 2)
+             .duration(strokeAnimationDuration / 2)
              .ease(d3.easeLinear)
              .attr("stroke-dashoffset", 0);
 
