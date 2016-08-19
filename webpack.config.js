@@ -66,20 +66,6 @@ module.exports = {
         }]
     },
     plugins: [
-        function() {
-            this.plugin("done", function(stats) {
-                if (stats.compilation.errors && stats.compilation.errors.length) {
-                    console.log("---------------------------------------------------");
-                    console.log("ERRORS");
-                    console.log("---------------------------------------------------");
-                    stats.compilation.errors.map(function(item) {
-                        console.log(item.message);
-                    });
-                    console.log("---------------------------------------------------");
-                    process.exit(1);
-                }
-            });
-        },
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
