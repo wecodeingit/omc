@@ -36,7 +36,9 @@
          var xAxis = d3.axisBottom().scale(x).ticks(numberOfXAxisLabels);
          var yAxis = d3.axisLeft().scale(y).ticks(numberOfYAxisLabels).tickFormat(formatYAxis);
          var labelFontSize = 12;
-         var strokeAnimationDuration = 1000;
+         var strokeAnimationDuration = 30;
+         var stowedColor = "#808080";
+         var deployedColor = "#008000";
 
 
 
@@ -172,12 +174,11 @@
              .attr("y2", y2)
              .transition()
              .delay(function(d, i) {
-                 return i * 30;
+                 return i * strokeAnimationDuration;
              })
              .ease(d3.easeLinear)
              .style("stroke", function(d) {
-                 console.log(d.SolArray_Status === "Stowed");
-                 return d.SolArray_Status.toLowerCase() === "stowed" ? "grey" : "green";
+                 return d.SolArray_Status.toLowerCase() === "stowed" ? stowedColor : deployedColor;
              });
 
 
@@ -193,9 +194,7 @@
                  return y(d[options.yAxisId]);
              })
              .transition()
-             .delay(function(d, i) {
-                 return strokeAnimationDuration;
-             })
+             .delay(strokeAnimationDuration * options.data.length)
              .ease(d3.easeLinear)
              .attr("r", 5)
              .call(endall, isTooltipEnbled);
