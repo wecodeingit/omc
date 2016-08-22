@@ -38,13 +38,7 @@
          var labelFontSize = 12;
          var strokeAnimationDuration = 1000;
 
-         var line = d3.line()
-             .x(function(d) {
-                 return x(d[options.xAxisId]);
-             })
-             .y(function(d) {
-                 return y(d[options.yAxisId]);
-             });
+
 
          var endall = function(transition, callback) {
              if (!callback) { callback = function() {}; }
@@ -78,7 +72,7 @@
              .append("g")
              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-         svg.selectAll("g").call(zoom);
+
          x.domain(d3.extent(options.data, function(d) {
              return d[options.xAxisId];
          }));
@@ -95,11 +89,14 @@
              .attr("x1", 0)
              .attr("x2", width)
              .attr("y1", function(d) {
-                 return y(d.value); })
+                 return y(d.value);
+             })
              .attr("y2", function(d) {
-                 return y(d.value); })
+                 return y(d.value);
+             })
              .style("stroke", function(d) {
-                 return d.color; });
+                 return d.color;
+             });
 
          svg.selectAll("legends")
              .data(options.limits)
@@ -107,10 +104,12 @@
              .append("text")
              .attr("x", width)
              .attr("y", function(d) {
-                 return y(d.value) - 5; })
+                 return y(d.value) - 5;
+             })
              .attr("text-anchor", "end")
              .text(function(d) {
-                 return d.legend; });
+                 return d.legend;
+             });
 
          svg.append("g")
              .attr("class", "x axis")
@@ -138,24 +137,49 @@
              .attr("y", height + (margin.bottom - labelFontSize))
              .text(options.xAxisName + " ( " + options.xAxisUnit + " )");
 
-         //draw Stowed graph
-         var path1 = svg.append("path")
-             .datum(options.data.filter(function(item) {
-                 return item.SolArray_Status === "Stowed"; }))
-             .attr("class", "line")
-             .attr("d", line)
-             .style("stroke", "grey");
+         var x1 = function(d, i) {
+             return x(d[options.xAxisId]);
+         };
 
-         //draw Deployed graph
-         var prev = false;
-         var path2 = svg.append("path")
-             .datum(options.data.filter(function(item, i) {
-                 prev = options.data[i + 1] ? (options.data[i + 1].SolArray_Status !== options.data[i].SolArray_Status) : false;
-                 return prev || (item.SolArray_Status !== "Stowed");
-             }))
+         var y1 = function(d, i) {
+             return y(d[options.yAxisId]);
+         };
+         var x2 = function(d, i) {
+             if (i < options.data.length - 1) {
+                 return x(options.data[i + 1][options.xAxisId]);
+             } else {
+                 return x(d[options.xAxisId]);
+             }
+         };
+         var y2 = function(d, i) {
+             if (i < options.data.length - 1) {
+                 return y(options.data[i + 1][options.yAxisId]);
+             } else {
+                 return y(d[options.yAxisId]);
+             }
+         };
+
+
+
+         svg.selectAll("status")
+             .data(options.data)
+             .enter()
+             .append("svg:line")
              .attr("class", "line")
-             .attr("d", line)
-             .style("stroke", "green");
+             .attr("x1", x1)
+             .attr("y1", y1)
+             .attr("x2", x2)
+             .attr("y2", y2)
+             .transition()
+             .delay(function(d, i) {
+                 return i * 30;
+             })
+             .ease(d3.easeLinear)
+             .style("stroke", function(d) {
+                 console.log(d.SolArray_Status === "Stowed");
+                 return d.SolArray_Status.toLowerCase() === "stowed" ? "grey" : "green";
+             });
+
 
          svg.selectAll("dot")
              .data(options.data)
@@ -181,27 +205,6 @@
              .on("click", function(d) {
                  $.event.trigger("emit:plot-data", d);
              });
-
-         var totalLength = path1.node().getTotalLength();
-
-         path1
-             .attr("stroke-dasharray", totalLength + " " + totalLength)
-             .attr("stroke-dashoffset", totalLength)
-             .transition()
-             .duration(strokeAnimationDuration / 2)
-             .ease(d3.easeLinear)
-             .attr("stroke-dashoffset", 0);
-
-         totalLength = path2.node().getTotalLength();
-
-         path2
-             .attr("stroke-dasharray", totalLength + " " + totalLength)
-             .attr("stroke-dashoffset", totalLength)
-             .transition()
-             .delay(strokeAnimationDuration / 2)
-             .duration(strokeAnimationDuration / 2)
-             .ease(d3.easeLinear)
-             .attr("stroke-dashoffset", 0);
 
      }
  };

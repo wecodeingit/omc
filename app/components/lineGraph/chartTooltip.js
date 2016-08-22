@@ -30,7 +30,8 @@
          }).on("mouseout", function(d) {
              self.tooltip.transition()
                  .duration(200)
-                 .style("opacity", 0);
+                 .selectAll(".tooltip-inner")
+                 .remove();
 
          });
 
